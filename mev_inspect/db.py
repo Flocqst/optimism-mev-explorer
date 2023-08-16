@@ -3,12 +3,12 @@ import os
 from typing import Any, Iterable, List, Optional
 from sqlalchemy import create_engine, orm
 from sqlalchemy.orm import sessionmaker
+
 from models.base import Base
 from models.arbitrages import ArbitrageModel
-from sqlalchemy.exc import SQLAlchemyError
 from contextlib import contextmanager
 
-load_dotenv('.env')
+load_dotenv()
 
 def get_database_uri() -> Optional[str]:
     username = os.getenv("DB_USER")
