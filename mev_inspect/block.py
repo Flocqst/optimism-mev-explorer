@@ -53,3 +53,18 @@ async def _fetch_block_receipts(w3, block_number: int) -> List[Receipt]:
 async def _fetch_block_traces(w3, block_number: int) -> List[Trace]:
     traces_json = await w3.eth.trace_block(block_number)
     return [Trace(**trace_json) for trace_json in traces_json]
+
+def _find_block_timestamp(
+    trace_db_session: orm.Session,
+    block_number: int,
+) -> Optional[int]:
+    result = trace_db_session.execute(
+        "SELECT block_timestamp FROM block_timestamps WHERE block_number = :block_number",
+        params={"block_number": block_number},
+    ).one_or_none()
+
+    if result is None:
+        return None
+    else:
+        (block_timestamp,) = result
+        return block_timestamp
