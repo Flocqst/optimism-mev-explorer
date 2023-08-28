@@ -1,10 +1,13 @@
+import sys
 from typing import Optional
 
 from pydantic import validator
 
-from mev_inspect.utils import hex_to_int
-
 from .utils import CamelModel
+
+# setting path
+sys.path.append('../mev_inspect')
+from mev_inspect.utils import hex_to_int
 
 
 class Receipt(CamelModel):

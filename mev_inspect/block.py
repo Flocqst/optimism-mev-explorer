@@ -6,8 +6,10 @@ from sqlalchemy import orm
 from web3 import Web3
 
 from typing import List, Optional
-from mev_inspect.schemas.receipts import Receipt
-from mev_inspect.schemas.traces import Trace
+
+from schemas.blocks import Block
+from schemas.receipts import Receipt
+from schemas.traces import Trace
 
 load_dotenv()
 alchemy_url = os.getenv("ALCHEMY_URL")
@@ -27,6 +29,34 @@ print(balance)
 # Get the information of a transaction
 tx = w3.eth.get_transaction('0xbde52a2e10c85ef4779244cfb786ce25dea1cb11639cb997b858e6fb6cde06c5')
 print(tx)
+
+blockz = w3.eth.get_block(latest_block)
+print(blockz)
+
+"""
+async def create_from_block_number(
+    w3: Web3,
+    block_number: int,
+    trace_db_session: Optional[orm.Session],
+) -> Block:
+    block_timestamp, receipts, traces, base_fee_per_gas = await asyncio.gather(
+        _find_or_fetch_block_timestamp(w3, block_number, trace_db_session),
+        _find_or_fetch_block_receipts(w3, block_number, trace_db_session),
+        _find_or_fetch_block_traces(w3, block_number, trace_db_session),
+        _find_or_fetch_base_fee_per_gas(w3, block_number, trace_db_session),
+    )
+
+    miner_address = _get_miner_address_from_traces(traces)
+
+    return Block(
+        block_number=block_number,
+        block_timestamp=block_timestamp,
+        miner=miner_address,
+        base_fee_per_gas=base_fee_per_gas,
+        traces=traces,
+        receipts=receipts,
+    )
+"""
 
 async def _find_or_fetch_block_timestamp(
     w3,

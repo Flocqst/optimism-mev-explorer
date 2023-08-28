@@ -1,13 +1,15 @@
+import sys
 from typing import List
 
 from pydantic import validator
-
-from mev_inspect.utils import hex_to_int
 
 from .receipts import Receipt
 from .traces import Trace
 from .utils import CamelModel, Web3Model
 
+# setting path
+sys.path.append('../mev_inspect')
+from mev_inspect.utils import hex_to_int
 
 class CallResult(CamelModel):
     gas_used: int
